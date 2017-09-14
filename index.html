@@ -7,7 +7,7 @@
 	</head>
 	<body ng-controller="main">
 
-		<div style="position:absolute;left:0px;top:0px;width:90%;height:90%;z-index:0px;">
+		<div id="mainDiv" style="position:absolute;left:0px;top:0px;width:90%;height:90%;z-index:0px;">
 			
 			<select ng-model="selectedCategory" ng-options="c.label for c in categories" style="width:152px;">
 			   <option value="">All</option>
@@ -21,17 +21,17 @@
 			
 			<div>
 			   <br/>
-			   <img ng-src="{{uiImages[0].thumbUrl}}" alt="{{uiImages[0].name}}" title="{{uiImages[0].name}}" style="max-height:120px;max-width:120px;" ng-click="openDetails(0)" />
-			   <img ng-src="{{uiImages[1].thumbUrl}}" alt="{{uiImages[1].name}}" title="{{uiImages[1].name}}" style="max-height:120px;max-width:120px;" ng-click="openDetails(1)"/>
-			   <img ng-src="{{uiImages[2].thumbUrl}}" alt="{{uiImages[2].name}}" title="{{uiImages[2].name}}" style="max-height:120px;max-width:120px;" ng-click="openDetails(2)"/>
+			   <img ng-src="{{uiImages[0].thumbUrl}}" alt="{{uiImages[0].name}}" title="{{uiImages[0].name}}" style="max-height:{{imageHeight}}px;max-width:{{imageWidth}}px;" ng-click="openDetails(0)" />
+			   <img ng-src="{{uiImages[1].thumbUrl}}" alt="{{uiImages[1].name}}" title="{{uiImages[1].name}}" style="max-height:{{imageHeight}}px;max-width:{{imageWidth}}px;" ng-click="openDetails(1)"/>
+			   <img ng-src="{{uiImages[2].thumbUrl}}" alt="{{uiImages[2].name}}" title="{{uiImages[2].name}}" style="max-height:{{imageHeight}}px;max-width:{{imageWidth}}px;" ng-click="openDetails(2)"/>
 			   <br/>
-			   <img ng-src="{{uiImages[3].thumbUrl}}" alt="{{uiImages[3].name}}" title="{{uiImages[3].name}}" style="max-height:120px;max-width:120px;" ng-click="openDetails(3)"/>
-			   <img ng-src="{{uiImages[4].thumbUrl}}" alt="{{uiImages[4].name}}" title="{{uiImages[4].name}}" style="max-height:120px;max-width:120px;" ng-click="openDetails(4)"/>
-			   <img ng-src="{{uiImages[5].thumbUrl}}" alt="{{uiImages[5].name}}" title="{{uiImages[5].name}}" style="max-height:120px;max-width:120px;" ng-click="openDetails(5)"/>
+			   <img ng-src="{{uiImages[3].thumbUrl}}" alt="{{uiImages[3].name}}" title="{{uiImages[3].name}}" style="max-height:{{imageHeight}}px;max-width:{{imageWidth}}px;" ng-click="openDetails(3)"/>
+			   <img ng-src="{{uiImages[4].thumbUrl}}" alt="{{uiImages[4].name}}" title="{{uiImages[4].name}}" style="max-height:{{imageHeight}}px;max-width:{{imageWidth}}px;" ng-click="openDetails(4)"/>
+			   <img ng-src="{{uiImages[5].thumbUrl}}" alt="{{uiImages[5].name}}" title="{{uiImages[5].name}}" style="max-height:{{imageHeight}}px;max-width:{{imageWidth}}px;" ng-click="openDetails(5)"/>
 			   <br/>
-			   <img ng-src="{{uiImages[6].thumbUrl}}" alt="{{uiImages[6].name}}" title="{{uiImages[6].name}}" style="max-height:120px;max-width:120px;" ng-click="openDetails(6)"/>
-			   <img ng-src="{{uiImages[7].thumbUrl}}" alt="{{uiImages[7].name}}" title="{{uiImages[7].name}}" style="max-height:120px;max-width:120px;" ng-click="openDetails(7)"/>
-			   <img ng-src="{{uiImages[8].thumbUrl}}" alt="{{uiImages[8].name}}" title="{{uiImages[8].name}}" style="max-height:120px;max-width:120px;" ng-click="openDetails(8)"/>
+			   <img ng-src="{{uiImages[6].thumbUrl}}" alt="{{uiImages[6].name}}" title="{{uiImages[6].name}}" style="max-height:{{imageHeight}}px;max-width:{{imageWidth}}px;" ng-click="openDetails(6)"/>
+			   <img ng-src="{{uiImages[7].thumbUrl}}" alt="{{uiImages[7].name}}" title="{{uiImages[7].name}}" style="max-height:{{imageHeight}}px;max-width:{{imageWidth}}px;" ng-click="openDetails(7)"/>
+			   <img ng-src="{{uiImages[8].thumbUrl}}" alt="{{uiImages[8].name}}" title="{{uiImages[8].name}}" style="max-height:{{imageHeight}}px;max-width:{{imageWidth}}px;" ng-click="openDetails(8)"/>
 			   <br/>
 			</div>
 			
@@ -43,12 +43,11 @@
 			</select>
 			<button ng-click="rightPage()" ng-hide="rightHidden">Next</button>
 
-		</div>
-		
-		<div style="position:absolute;left:0px;top:0px;width:100%;height:100%;z-index:1px;background:rgba(225, 225, 225, .8);" ng-hide="detailsHidden" ng-click="closeDetails()" >
-	       <img ng-src="{{detailsImage.thumbUrl}}" alt="{{detailsImage.name}}" title="{{detailsImage.name}}" style="max-height:360px;max-width:360px;" />
-		</div>
-		
+			<div style="position:absolute;left:0px;top:0px;width:100%;height:100%;z-index:1px;background:rgba(225, 225, 225, .8);" ng-hide="detailsHidden" ng-click="closeDetails()" >
+		       <img ng-src="{{detailsImage.thumbUrl}}" alt="{{detailsImage.name}}" title="{{detailsImage.name}}" style="max-height:360px;max-width:360px;" />
+			</div>
+
+		</div>		
 			
 		<script>
 			angular
@@ -74,6 +73,36 @@
 				// Local images
 				$scope.images = [];
 				$scope.uiImages = [];
+
+				// initialization here!
+
+				var oppositeOrientationChange = function()
+				{
+					var oppositeCorrection = screen.orientation.angle * -1;
+					document.getElementById("mainDiv").style.transform = "rotate(" + oppositeCorrection + "deg)";
+				}
+
+				// apply to start
+				oppositeOrientationChange();
+
+ 				window.addEventListener("orientationchange", function() {
+					// Announce the new orientation number
+					console.info("Orientation changed to: " + screen.orientation.angle);
+					oppositeOrientationChange();
+				}, false);
+
+				screen.orientation.lock('portrait').catch(function() {
+					console.error("Orientation locking failed!");
+				});
+
+				// calculate viewport size
+				var width = window.screen.width;
+				var height = window.screen.height;
+
+				$scope.imageWidth = width / 4;
+				$scope.imageHeight = height / 5;
+
+				console.info('Device viewport: ' + width + ', ' + height);
 
 				/*****************************************************/
 				// methods
@@ -127,6 +156,49 @@
 				   $scope.launchQuery("tag=" + tag);
 				}
 
+				$scope.loadUrl = function(url)
+				{
+					var httpResponseText = '';
+
+				    if (window.XMLHttpRequest)
+				    {// code for IE7+, Firefox, Chrome, Opera, Safari
+				        xmlhttp = new XMLHttpRequest();
+				    }
+				    else
+				    {// code for IE6, IE5
+				        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				    }
+
+				    xmlhttp.onreadystatechange = function()
+				    {
+				    	console.info("Http ready, state: " + xmlhttp.readyState + ", Status: " + xmlhttp.status);
+
+				        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+				        {
+				            httpResponseText = xmlhttp.responseText;
+				        }
+				        else
+				        {
+				        	httpResponseText = 'error';
+				        }
+				    }
+
+				    xmlhttp.ontimeout = function()
+				    {
+				    	console.info("Timeout for url '" + url + "'");
+
+				    	httpResponseText = 'error';
+
+				    }
+
+				    xmlhttp.open("GET", url, false );
+				    xmlhttp.send();
+
+				    console.info("Response text received: '" + httpResponseText + "'");
+
+				    return httpResponseText;
+				}
+
 				$scope.launchQuery = function(queryString)
 				{
 				
@@ -137,22 +209,11 @@
 				   $scope.clearDisplayImages();
 
 				   // query here
-				   
-				   // ...
-				   
-				   // dummy testing part
-				   var returnString = '12,1,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=430549&type=card,' + 
-				    '2,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=430550&type=card,' + 
-					'3,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=430551&type=card,' + 
-					'4,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=430552&type=card,' + 
-					'5,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=430553&type=card,' + 
-					'6,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=430554&type=card,' + 
-					'7,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=430555&type=card,' + 
-					'8,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=430556&type=card,' + 
-					'9,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=430557&type=card,' + 
-					'10,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=430558&type=card,' + 
-					'11,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=430559&type=card,' + 
-					'12,http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=430560&type=card';
+				   var queryUrl = 'http://localhost:3000';
+
+				   var returnString = $scope.loadUrl(queryUrl);
+
+				   console.info('Return: ' + returnString);
 
 				   var texts = returnString.split(",");
 				   
